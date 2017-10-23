@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import AuthScreen from './containers/AuthScreen';
-import HomeScreen from './containers/HomeScreen';
 
 /**
  * The root component of the application.
@@ -21,6 +20,7 @@ export class LoginAnimation extends Component {
 
   }
 
+  // logout={() => this.setState({ isLoggedIn: false, isAppReady: false })}
   resetStatus(isLoggedIn=false, isLoading=false, isAppReady=false){
     this.setState({
       isLoggedIn: isLoggedIn,
@@ -28,7 +28,6 @@ export class LoginAnimation extends Component {
       isAppReady: isAppReady
     })
   }
-
 
   /**
    * Two login function that waits 1000 ms and then authenticates the user succesfully.
@@ -62,10 +61,7 @@ export class LoginAnimation extends Component {
   render () {
     if (this.state.isAppReady) {
       return (
-        <HomeScreen
-          logout={() => this.setState({ isLoggedIn: false, isAppReady: false })}
-        />
-        // {this.props.mainPage}
+        this.props.children
       )
     } else {
       return (
@@ -85,6 +81,7 @@ LoginAnimation.propTypes = {
   login: PropTypes.func,
   logout: PropTypes.func,
   signup: PropTypes.func,
+  children: PropTypes.node,
 }
 
 export default LoginAnimation

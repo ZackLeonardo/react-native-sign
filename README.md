@@ -1,7 +1,7 @@
 # react-native-sign
 
 ## Introduction
-forked from : https://github.com/mmazzarolo/react-native-login-animation-example
+Inspired by : https://github.com/mmazzarolo/react-native-login-animation-example
 The component which shows image or video, in full screen or thumbnail.
 
 ## Installation
