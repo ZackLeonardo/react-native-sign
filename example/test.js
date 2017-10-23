@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
+  View,
+  Text,
 } from 'react-native';
 
 import Meteor, { createContainer, Tracker } from 'react-native-meteor';
@@ -25,23 +27,6 @@ export default class Test extends Component {
 
   }
 
-  _login(username, password){
-    Meteor.loginWithPassword(username, password, function(error){
-        if (error){
-          console.log(error);
-          this.loginAnimationRef.resetStatus();
-        }else{
-          console.log('log in succesfully');
-          console.log('loged in user info:' + JSON.stringify(Meteor.user()));
-          this.loginAnimationRef.resetStatus(isLoggedIn=true, isLoading=false );
-        }
-    }.bind(this));
-  }
-
-  _logout(){
-
-  }
-
   _showAlert(alertTitle='未连接服务器', info='请检查网络连接后重试', okInfo='好的'){
     Alert.alert(
       alertTitle,
@@ -51,6 +36,32 @@ export default class Test extends Component {
       ],
       { cancelable: false }
     )
+  }
+
+  _login(username, password){
+    Meteor.loginWithPassword(username, password, function(error){
+        if (error){
+          console.log(error);
+          switch (error.reason) {
+            case 'User not found':
+              this._showAlert(alertTitle='提示', info='用户名尚未注册', okInfo='好的');
+              break;
+            case 'Incorrect password':
+              this._showAlert(alertTitle='提示', info='用户名密码不匹配', okInfo='好的');
+              break;
+            default:
+          }
+          this.loginAnimationRef.resetStatus();
+        }else{
+          console.log('log in succesfully');
+          console.log('loged in user info:' + JSON.stringify(Meteor.user()));
+          this.loginAnimationRef.resetStatus(isLoggedIn=true, isLoading=false, isAppReady=true );
+        }
+    }.bind(this));
+  }
+
+  _logout(){
+
   }
 
   _signup(username, password, fullName){
@@ -95,7 +106,11 @@ export default class Test extends Component {
         login={this._login}
         logout={this._logout}
         signup={this._signup}
-        />
+        >
+        <View>
+          <Text>haha</Text>
+        </View>
+      </LoginAnimation>
       );
   }
 }
