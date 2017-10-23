@@ -8,7 +8,7 @@ import {
 
 import Meteor, { createContainer, Tracker } from 'react-native-meteor';
 
-import LoginAnimation from 'react-native-sign';
+import LoginAnimation from '@zdy/react-native-sign';
 
 Meteor.connect('ws://localhost:3000/websocket');
 
@@ -64,10 +64,10 @@ export default class Test extends Component {
 
   }
 
-  _signup(username, password, fullName){
+  _signup(username, password, email){
     var username = username.trim();
     var password = password.trim();
-    var fullName = fullName.trim();
+    var email = email.trim();
     // Accounts.createUser({
     //     email: email,
     //     password: password
@@ -76,7 +76,7 @@ export default class Test extends Component {
     if (Meteor.status().status !== 'connected'){
       this._showAlert();
     } else {
-      Meteor.call('signup', username, password, fullName, (error, content) => {
+      Meteor.call('signup', username, password, email, (error, content) => {
         if (error){
           console.log('error: ' + JSON.stringify(error));
           switch (error.reason) {
